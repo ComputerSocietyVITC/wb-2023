@@ -35,7 +35,8 @@ jobs:
           if [ -f "${{ github.workspace }}/pnpm-lock.yaml" ]; then
             echo "manager=npm" >> $GITHUB_ENV
             echo "command=install" >> $GITHUB_ENV
-            echo "runner=npm --no-install" >> $GITHUB_ENV
+            echo "runner=npm" >> $GITHUB_ENV
+            echo "active=npx" >> $GITHUB_ENV
           elif [ -f "${{ github.workspace }}/yarn.lock" ]; then
             echo "manager=yarn" >> $GITHUB_ENV
             echo "command=install" >> $GITHUB_ENV
@@ -67,9 +68,9 @@ jobs:
       - name: Install dependencies
         run: ${{ env.runner }} ${{ env.command }}
       - name: Build with Next.js
-        run: ${{ env.runner }} next build
+        run: ${{ env.active }} next build
       - name: Static HTML export with Next.js
-        run: ${{ env.runner }} next export
+        run: ${{ env.active }} next export
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
